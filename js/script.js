@@ -4,8 +4,7 @@ window.addEventListener('DOMContentLoaded', function() {
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
 
-    console.log(tabContent);
-
+    
     function hideTabContent(a) {
         for (let i = a; i < tabContent.length; i++) {
             tabContent[i].classList.remove('show');
@@ -34,5 +33,57 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    
+    //Timer
+
+    let deadline = '2021-07-12'; //дата на яку наставлений таймер
+    setClock('timer', deadline); //'timer' - це назва id елемента (батьківського) в якому знаходяться дочірні елементи із значеннями таймеру
+
+    function getTimeRemaining(endtime) {
+        let t = Date.parse(endtime) - Date.parse(new Date()), //скільки секунд залишилось
+        seconds = Math.floor((t/1000) % 60), // остаток секунд без хвилин і годин
+        minutes = Math.floor((t/1000/60) % 60), // остаток хвилин без годин
+        hours = Math.floor((t/(1000*60*60))); // остаток годин
+        return {
+            'total' : t,
+            'seconds' : seconds,
+            'minutes' : minutes,
+            'hours' : hours
+        };
+    }
+
+    function setClock(id, endtime) {
+        let timer = document.getElementById(id),
+            hours = timer.querySelector('.hours'),
+            minutes = timer.querySelector('.minutes'),
+            seconds = timer.querySelector('.seconds'),
+            timeInterval = setInterval(updateClock, 1000);
+
+            // hours.textContent = t.hours;
+            // minutes.textContent = t.minutes;
+            // seconds.textContent = t.seconds;
+        
+
+        function updateClock() {
+            let t = getTimeRemaining(endtime);
+           
+            function addZero(el, num) {
+                if(num <= 9) {
+                    el.textContent = '0' + num;
+                } else {
+                    el.textContent = num;
+                }
+            }
+            addZero(seconds, t.seconds);
+            addZero(minutes, t.minutes);
+            addZero(hours, t.hours);
+            
+            if (t.total <=0) {
+                clearInterval(timeInterval);
+                hours.textContent = '00';
+                minutes.textContent = '00';
+                seconds.textContent = '00';
+            } 
+        }
+    }
 });
+
