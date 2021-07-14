@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     //Timer
 
-    let deadline = '2021-07-14'; //дата на яку наставлений таймер
+    let deadline = '2021-07-15'; //дата на яку наставлений таймер
     setClock('timer', deadline); //'timer' - це назва id елемента (батьківського) в якому знаходяться дочірні елементи із значеннями таймеру
 
     function getTimeRemaining(endtime) {
@@ -57,6 +57,7 @@ window.addEventListener('DOMContentLoaded', function() {
             minutes = timer.querySelector('.minutes'),
             seconds = timer.querySelector('.seconds'),
             timeInterval = setInterval(updateClock, 1000);
+           
 
             // hours.textContent = t.hours;
             // minutes.textContent = t.minutes;
@@ -65,8 +66,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
         function updateClock() {
             let t = getTimeRemaining(endtime);
-           
+            // addZero.apply(t);
             function addZero(el, num) {
+                // console.log(this);
                 if(num <= 9) {
                     el.textContent = '0' + num;
                 } else {
@@ -76,6 +78,8 @@ window.addEventListener('DOMContentLoaded', function() {
             addZero(seconds, t.seconds);
             addZero(minutes, t.minutes);
             addZero(hours, t.hours);
+
+              
             
             if (t.total <=0) {
                 clearInterval(timeInterval);
@@ -103,7 +107,32 @@ window.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
 
     });
+
+    //3.15
+    class Options {
+        constructor (height, width, bg, fontSize, textAlign) {
+            this.height = height;
+            this.width = width;
+            this.bg = bg;
+            this.fontSize = fontSize;
+            this.textAlign = textAlign;
+        }
+        newDiv() {
+            let div = document.createElement('div'),
+                param = `height:${this.height}px; width:${this.width}px; background-color:${this.bg}; font-size:${this.fontSize}px; text-align:${this.textAlign}`;
+            document.body.appendChild(div);
+    
+            div.textContent = 'Любой текст';
+            div.style.cssText = param;
+        }
+    }
+    
+    let obj = new Options (100, 100, 'red', 15, 'start');
+    obj.newDiv();
 });
+
+
+
 
 
 
